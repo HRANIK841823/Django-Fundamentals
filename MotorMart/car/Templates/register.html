@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    /* Full-page gradient background */
+    body {
+        background: linear-gradient(to right, #6a11cb, #2575fc);  /* Cool gradient */
+        /* min-height: 100vh;
+        display: flex; */
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Card styling */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.85);  /* Slight transparency for card background */
+        backdrop-filter: blur(10px);  /* Glassmorphism effect */
+    }
+
+    /* Card header styling */
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.75);
+        border-bottom: none;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Button hover effect */
+    .btn-primary {
+        background-color: #2575fc;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #1a63d9;
+    }
+
+    /* Form input focus effect */
+    .form-control:focus {
+        border-color: #2575fc;
+        box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+    }
+
+    /* Footer link hover */
+    .text-primary:hover {
+        color: #6a11cb !important;
+    }
+</style>
+
+{% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-lg rounded" role="alert">
+                <strong>{{ message.tags|title }}:</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2 class="card-title mb-0">Create Your Account</h2>
+                </div>
+                <div class="card-body px-5 py-4">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label fw-semibold">{{ form.username.label }}</label>
+                            {{ form.username|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- First Name Field -->
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label fw-semibold">{{ form.first_name.label }}</label>
+                            {{ form.first_name|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- Last Name Field -->
+                        <div class="mb-3">
+                            <label for="id_last_name" class="form-label fw-semibold">{{ form.last_name.label }}</label>
+                            {{ form.last_name|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label fw-semibold">{{ form.email.label }}</label>
+                            {{ form.email|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- Password Field 1 -->
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label fw-semibold">{{ form.password1.label }}</label>
+                            {{ form.password1|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- Password Field 2 -->
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label fw-semibold">{{ form.password2.label }}</label>
+                            {{ form.password2|add_class:"form-control shadow-sm" }}
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary shadow-sm">Register</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center bg-light py-3">
+                    <small>Already have an account?</small>
+                    <a href="{% url 'login' %}" class="text-primary fw-bold">Login Here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

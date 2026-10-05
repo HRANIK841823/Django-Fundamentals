@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+
+  <div id="activation-message"></div>
+  <div id="error-message" style="color: red;"></div>
+
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const response = await fetch('http://localhost:8000/patient/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login success:", data);
+
+        // ✅ Store token in localStorage (optional)
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user_id', data.user_id);
+
+        // ✅ Redirect to index.html
+        window.location.href = "profile.html";
+      } else {
+        const errorData = await response.json();
+        document.getElementById('error-message').innerText = errorData.error || "Login failed.";
+      }
+    });
+
+    // Optional: Handle account activation message
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('activated') === '1') {
+      document.getElementById('activation-message').innerHTML =
+        '<p style="color: green;">Your account has been activated. Please log in.</p>';
+    }
+  </script>
+
+</body>
+</html>

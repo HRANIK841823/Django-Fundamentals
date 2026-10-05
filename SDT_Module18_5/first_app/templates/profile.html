@@ -1,0 +1,7 @@
+{% extends 'base.html'%}
+{% block content %}
+{% for i in messages%}
+   <h3 class="text-{{i.tags}} text-green">{{i}}</h3>
+{%  endfor %}
+<h1 class="bg-info border-3">Profile page</h1>
+{% endblock%}

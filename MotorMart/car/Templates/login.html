@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    /* Full-page gradient background */
+    body {
+        background: linear-gradient(to right, #ff7e5f, #feb47b);  /* Warm gradient */
+        /* min-height: 100vh;
+        display: flex; */
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Card styling */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.85);  /* Slight transparency for card background */
+        backdrop-filter: blur(10px);  /* Glassmorphism effect */
+    }
+
+    /* Card header styling */
+    .card-header {
+        background-color: rgba(0, 0, 0, 0.75);
+        border-bottom: none;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .card-header p {
+        font-size: 1rem;
+        color: #bdbdbd;
+        margin-top: 5px;
+    }
+
+    /* Button hover effect */
+    .btn-success {
+        background-color: #feb47b;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #ff7e5f;
+    }
+
+    /* Form input focus effect */
+    .form-control:focus {
+        border-color: #ff7e5f;
+        box-shadow: 0 0 8px rgba(255, 126, 95, 0.5);
+    }
+
+    /* Footer link hover */
+    .text-success:hover {
+        color: #ff7e5f !important;
+    }
+</style>
+
+{% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-lg rounded" role="alert">
+                <strong>{{ message.tags|title }}:</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2 class="card-title mb-0">Welcome Back!</h2>
+                    <p>Please login to continue</p>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="p-4" novalidate>
+                        {% csrf_token %}
+                        {% for fm in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">{{ fm.label_tag }}</label>
+                            <div>
+                                {{ fm|add_class:"form-control form-control-lg border-secondary" }}
+                                <small class="text-danger">{{ fm.errors|striptags }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-success btn-lg btn-block shadow-sm">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center bg-light py-3">
+                    <small>New to the site?</small>
+                    <a href="{% url 'register' %}" class="text-success fw-bold">Create an Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
